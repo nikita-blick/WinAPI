@@ -1,4 +1,4 @@
-#include<Windows.h>
+п»ї#include<Windows.h>
 #include"resource.h"
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -26,21 +26,22 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 {
 	switch (uMsg)
 	{
-	case WM_INITDIALOG: // выполняется 1 раз, при запуске окна
+	case WM_INITDIALOG: // РІС‹РїРѕР»РЅСЏРµС‚СЃСЏ 1 СЂР°Р·, РїСЂРё Р·Р°РїСѓСЃРєРµ РѕРєРЅР°
 		break;
-	case WM_COMMAND:    // обрабатывает команды с клавиатуры и мыши
+	case WM_COMMAND:    // РѕР±СЂР°Р±Р°С‚С‹РІР°РµС‚ РєРѕРјР°РЅРґС‹ СЃ РєР»Р°РІРёР°С‚СѓСЂС‹ Рё РјС‹С€Рё
 		switch (LOWORD(wParam))
 		{
 		case IDOK:
-			MessageBox(NULL, "Была нажата кнопка 'OK'", "info", MB_OK | MB_ICONINFORMATION);
+			MessageBox(NULL, "Р‘С‹Р»Р° РЅР°Р¶Р°С‚Р° РєРЅРѕРїРєР° 'OK'", "info", MB_OK | MB_ICONINFORMATION);
 			break;
 		case IDCANCEL:
 			EndDialog(hwnd, 0);
 			break;
 		}
 		break;
-	case WM_CLOSE:      // Выполняется при нажатии кнопки (крестик)
+	case WM_CLOSE:      // Р’С‹РїРѕР»РЅСЏРµС‚СЃСЏ РїСЂРё РЅР°Р¶Р°С‚РёРё РєРЅРѕРїРєРё (РєСЂРµСЃС‚РёРє)
 		EndDialog(hwnd, 0);
 	}
 	return FALSE;
+
 }
