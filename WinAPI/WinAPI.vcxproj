@@ -135,6 +135,9 @@
   <ItemGroup>
     <ResourceCompile Include="Resource.rc" />
   </ItemGroup>
+  <ItemGroup>
+    <Image Include="summer_beach_vacation_play_sun_sport_sand_ball_icon_267096.ico" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>
