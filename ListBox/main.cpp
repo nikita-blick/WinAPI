@@ -3,6 +3,7 @@
 #include"resource.h"
 
 CONST CHAR* g_sz_VALUES[] = {"This", "is", "my", "first", "Combo", "Box"};
+CONST CHAR g_sz_FILENAME[] = "list.txt";
 
 BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 BOOL CALLBACK DlgProcAdd(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
@@ -23,9 +24,10 @@ BOOL CALLBACK DlgProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	{
 	case WM_INITDIALOG: 
 	{
-		HWND hListBox = GetDlgItem(hwnd, IDC_LIST1);
+		/*HWND hListBox = GetDlgItem(hwnd, IDC_LIST1);
 		for (int i = 0; i < sizeof(g_sz_VALUES) / sizeof(g_sz_VALUES[0]); i++)
-			SendMessage(hListBox, LB_ADDSTRING, 0, (LPARAM)g_sz_VALUES[i]);
+			SendMessage(hListBox, LB_ADDSTRING, 0, (LPARAM)g_sz_VALUES[i]);*/
+		LoadList(hwnd, g_sz_FILENAME);
 	}
 		break;
 	case WM_COMMAND:
@@ -198,11 +200,11 @@ VOID LoadList(HWND hwnd, CONST CHAR filename[])
 	DWORD dwError = GetLastError();
 	if (dwError == ERROR_FILE_NOT_FOUND)return;
 	CONST INT SIZE = 32768;
-	CHAR sz_buffer[SIZE];
-	DWORD dwBytesWritten = 0;
-	ReadFile(hFile, sz_buffer, SIZE, &dwBytesWritten, NULL);
+	CHAR sz_buffer[SIZE] = {};
+	DWORD dwByteRead = 0;
+	ReadFile(hFile, sz_buffer, SIZE, &dwByteRead, NULL);
 	HWND hList = GetDlgItem(hwnd, IDC_LIST1);
-	for (char* pch = strtok(sz_buffer, "\n"); pch; strtok(NULL, "\n"))
+	for (char* pch = strtok(sz_buffer, "\n"); pch; pch = strtok(NULL, "\n"))
 		SendMessage(hList, LB_ADDSTRING, 0, (LPARAM)pch);
 	CloseHandle(hFile);
 }
