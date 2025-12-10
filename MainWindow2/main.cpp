@@ -1,6 +1,9 @@
 //MainWindow
 #include<Windows.h>
+#include<cstdio>
 #include"resource.h"
+
+#define IDC_BUTTON	1000
 
 CONST CHAR g_sz_WINDOW_CLASS[] = "My first window";
 
@@ -49,17 +52,23 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	}
 
 	//2) создание окна:
+	int screen_width = GetSystemMetrics(SM_CXSCREEN);
+	int screen_height = GetSystemMetrics(SM_CYSCREEN);
+	int window_width = screen_width * 3 / 4;
+	int window_height = screen_height * 3 / 4;
+	int x_position = screen_width / 8;
+	int y_position = screen_height / 8;
 	HWND hwnd = CreateWindowEx
 	(
-		NULL,	//exStyle
-		g_sz_WINDOW_CLASS,	// имя класса окна
-		g_sz_WINDOW_CLASS,	// заголовок окна
-		WS_OVERLAPPEDWINDOW,// стиль окна. Стили всегда зависят от класса окна. 'WS_OVERLAPPEDWINDOW' - нлавное окно
-		CW_USEDEFAULT, CW_USEDEFAULT,	//Position
-		640, 480,	// размер окна
+		NULL,	                          //exStyle
+		g_sz_WINDOW_CLASS,	              // имя класса окна
+		g_sz_WINDOW_CLASS,	              // заголовок окна
+		WS_OVERLAPPEDWINDOW,              // стиль окна. Стили всегда зависят от класса окна. 'WS_OVERLAPPEDWINDOW' - нлавное окно
+		CW_USEDEFAULT, CW_USEDEFAULT,	  //Position
+		640, 480,	                      // размер окна
 		NULL,
-		NULL,	// для главного окна это ResourceID главного меню, 
-		// для дочернего окна (Control) - ResourceID дочернего окна (IDC_BUTTON_COPY)
+		NULL,	                          // для главного окна это ResourceID главного меню, 
+		                                  // для дочернего окна (Control) - ResourceID дочернего окна (IDC_BUTTON_COPY)
 		hInstance,
 		NULL
 	);
@@ -69,8 +78,8 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		return 0;
 	}
 	ShowWindow(hwnd, nCmdShow);	// задает режим отображения окна - Развернуто на весь экран, Свернуто в окно, Свернуто на панель задач.
-	UpdateWindow(hwnd);	// обновляет рабочую область окна отправляя сообщение 'WM_PAINT', 
-	// если клиентская область окна не пустая.
+	UpdateWindow(hwnd);	        // обновляет рабочую область окна отправляя сообщение 'WM_PAINT', 
+	                            // если клиентская область окна не пустая.
 
 //3) запуск цикла сообщений:
 	MSG msg;	//
@@ -88,9 +97,50 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 	switch (uMsg)
 	{
 	case WM_CREATE:
-		MessageBox(hwnd, "Cursor check", "Info", MB_OK | MB_ICONINFORMATION);
-		break;
+	{
+		HWND hButton = CreateWindowEx
+		(
+			NULL,		                                            //exStyle
+			"Button",	                                            //Class
+			"Кнопка",	                                            //Title
+			WS_CHILD | WS_VISIBLE,	                                //Style
+			10, 10,		                                            //Position
+			150, 80,	                                            //Size
+			hwnd,	                                             	//Parent
+			(HMENU)IDC_BUTTON,
+			GetModuleHandle(NULL),                                  //hInstance
+			NULL		                                            //???
+		);
+	}
+	break;
+	case WM_MOVE:
+	case WM_SIZE:
+	{
+		RECT window_rect = {};
+		GetWindowRect(hwnd, &window_rect);
+		CONST INT SIZE = 256;
+		CHAR sz_title[SIZE] = {};
+		wsprintf
+		(
+			sz_title,
+			"%s, Position: %ix%i, Size: %ix%i",
+			g_sz_WINDOW_CLASS,
+			window_rect.left, window_rect.top,
+			window_rect.right - window_rect.left,
+			window_rect.bottom - window_rect.top
+		);
+		SendMessage(hwnd, WM_SETTEXT, 0, (LPARAM)sz_title);
+	}
+	break;
 	case WM_COMMAND:
+	{
+		switch (LOWORD(wParam))
+		{
+		case IDC_BUTTON:
+			MessageBox(hwnd, "Cursor check", "Info", MB_OK | MB_ICONINFORMATION);
+			break;
+		}
+	}
 		break;
 	case WM_DESTROY:
 		PostQuitMessage(0);
