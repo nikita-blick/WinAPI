@@ -1,4 +1,4 @@
-//MainWindow
+п»ї//MainWindow
 #include<Windows.h>
 #include<cstdio>
 #include"resource.h"
@@ -11,19 +11,19 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
-	//1) регистрация класса окна. На этом этапе класс нашего окна регистрируется в ОС.
-	//	 класс окна это не тип данных, как в ООП, класс любого окна представляет собой 
-	//	 самую обычную строку с именем класса.
+	//1) СЂРµРіРёСЃС‚СЂР°С†РёСЏ РєР»Р°СЃСЃР° РѕРєРЅР°. РќР° СЌС‚РѕРј СЌС‚Р°РїРµ РєР»Р°СЃСЃ РЅР°С€РµРіРѕ РѕРєРЅР° СЂРµРіРёСЃС‚СЂРёСЂСѓРµС‚СЃСЏ РІ РћРЎ.
+	//	 РєР»Р°СЃСЃ РѕРєРЅР° СЌС‚Рѕ РЅРµ С‚РёРї РґР°РЅРЅС‹С…, РєР°Рє РІ РћРћРџ, РєР»Р°СЃСЃ Р»СЋР±РѕРіРѕ РѕРєРЅР° РїСЂРµРґСЃС‚Р°РІР»СЏРµС‚ СЃРѕР±РѕР№ 
+	//	 СЃР°РјСѓСЋ РѕР±С‹С‡РЅСѓСЋ СЃС‚СЂРѕРєСѓ СЃ РёРјРµРЅРµРј РєР»Р°СЃСЃР°.
 	WNDCLASSEX wClass;
 	ZeroMemory(&wClass, sizeof(wClass));
 
-	// инициализируем размеры и стиль:
+	// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј СЂР°Р·РјРµСЂС‹ Рё СЃС‚РёР»СЊ:
 	wClass.style = NULL;
 	wClass.cbSize = sizeof(wClass);	//cb_ - Count Bytes
 	wClass.cbClsExtra = 0;
 	wClass.cbWndExtra = 0;
 
-	// инициализируем внешний вид окон:
+	// РёРЅРёС†РёР°Р»РёР·РёСЂСѓРµРј РІРЅРµС€РЅРёР№ РІРёРґ РѕРєРѕРЅ:
 	wClass.hIconSm = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_BITCOIN));
 	wClass.hIcon = LoadIcon(hInstance, MAKEINTRESOURCE(IDI_ICON_EURO));
 	//wClass.hIcon = (HICON)LoadImage(NULL, "euro.ico", IMAGE_ICON, LR_DEFAULTSIZE, LR_DEFAULTSIZE, LR_LOADFROMFILE);
@@ -39,7 +39,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	//wClass.hCursor = LoadCursor(hInstance, MAKEINTRESOURCE(IDC_CURSOR1));
 	wClass.hbrBackground = (HBRUSH)(COLOR_WINDOW + 1);
 
-	// инициализация системных переменных:
+	// РёРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃРёСЃС‚РµРјРЅС‹С… РїРµСЂРµРјРµРЅРЅС‹С…:
 	wClass.hInstance = hInstance;
 	wClass.lpszClassName = g_sz_WINDOW_CLASS;
 	wClass.lpszMenuName = NULL;
@@ -51,7 +51,7 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		return 0;
 	}
 
-	//2) создание окна:
+	//2) СЃРѕР·РґР°РЅРёРµ РѕРєРЅР°:
 	int screen_width = GetSystemMetrics(SM_CXSCREEN);
 	int screen_height = GetSystemMetrics(SM_CYSCREEN);
 	int window_width = screen_width * 3 / 4;
@@ -61,14 +61,14 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 	HWND hwnd = CreateWindowEx
 	(
 		NULL,	                          //exStyle
-		g_sz_WINDOW_CLASS,	              // имя класса окна
-		g_sz_WINDOW_CLASS,	              // заголовок окна
-		WS_OVERLAPPEDWINDOW,              // стиль окна. Стили всегда зависят от класса окна. 'WS_OVERLAPPEDWINDOW' - нлавное окно
+		g_sz_WINDOW_CLASS,	              // РёРјСЏ РєР»Р°СЃСЃР° РѕРєРЅР°
+		g_sz_WINDOW_CLASS,	              // Р·Р°РіРѕР»РѕРІРѕРє РѕРєРЅР°
+		WS_OVERLAPPEDWINDOW,              // СЃС‚РёР»СЊ РѕРєРЅР°. РЎС‚РёР»Рё РІСЃРµРіРґР° Р·Р°РІРёСЃСЏС‚ РѕС‚ РєР»Р°СЃСЃР° РѕРєРЅР°. 'WS_OVERLAPPEDWINDOW' - РЅР»Р°РІРЅРѕРµ РѕРєРЅРѕ
 		CW_USEDEFAULT, CW_USEDEFAULT,	  //Position
-		640, 480,	                      // размер окна
+		640, 480,	                      // СЂР°Р·РјРµСЂ РѕРєРЅР°
 		NULL,
-		NULL,	                          // для главного окна это ResourceID главного меню, 
-		                                  // для дочернего окна (Control) - ResourceID дочернего окна (IDC_BUTTON_COPY)
+		NULL,	                          // РґР»СЏ РіР»Р°РІРЅРѕРіРѕ РѕРєРЅР° СЌС‚Рѕ ResourceID РіР»Р°РІРЅРѕРіРѕ РјРµРЅСЋ, 
+		                                  // РґР»СЏ РґРѕС‡РµСЂРЅРµРіРѕ РѕРєРЅР° (Control) - ResourceID РґРѕС‡РµСЂРЅРµРіРѕ РѕРєРЅР° (IDC_BUTTON_COPY)
 		hInstance,
 		NULL
 	);
@@ -77,16 +77,16 @@ INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, IN
 		MessageBox(NULL, "Windows creation failed", NULL, MB_OK | MB_ICONERROR);
 		return 0;
 	}
-	ShowWindow(hwnd, nCmdShow);	// задает режим отображения окна - Развернуто на весь экран, Свернуто в окно, Свернуто на панель задач.
-	UpdateWindow(hwnd);	        // обновляет рабочую область окна отправляя сообщение 'WM_PAINT', 
-	                            // если клиентская область окна не пустая.
+	ShowWindow(hwnd, nCmdShow);	// Р·Р°РґР°РµС‚ СЂРµР¶РёРј РѕС‚РѕР±СЂР°Р¶РµРЅРёСЏ РѕРєРЅР° - Р Р°Р·РІРµСЂРЅСѓС‚Рѕ РЅР° РІРµСЃСЊ СЌРєСЂР°РЅ, РЎРІРµСЂРЅСѓС‚Рѕ РІ РѕРєРЅРѕ, РЎРІРµСЂРЅСѓС‚Рѕ РЅР° РїР°РЅРµР»СЊ Р·Р°РґР°С‡.
+	UpdateWindow(hwnd);	        // РѕР±РЅРѕРІР»СЏРµС‚ СЂР°Р±РѕС‡СѓСЋ РѕР±Р»Р°СЃС‚СЊ РѕРєРЅР° РѕС‚РїСЂР°РІР»СЏСЏ СЃРѕРѕР±С‰РµРЅРёРµ 'WM_PAINT', 
+	                            // РµСЃР»Рё РєР»РёРµРЅС‚СЃРєР°СЏ РѕР±Р»Р°СЃС‚СЊ РѕРєРЅР° РЅРµ РїСѓСЃС‚Р°СЏ.
 
-//3) запуск цикла сообщений:
+//3) Р·Р°РїСѓСЃРє С†РёРєР»Р° СЃРѕРѕР±С‰РµРЅРёР№:
 	MSG msg;	//
 	while (GetMessage(&msg, NULL, 0, 0) > 0)
 	{
-		TranslateMessage(&msg);	// преобразует сообщения виртуальных клавиш в символьные сообщения.
-		DispatchMessage(&msg);	// отправляет сообщение в процедуру окна.
+		TranslateMessage(&msg);	// РїСЂРµРѕР±СЂР°Р·СѓРµС‚ СЃРѕРѕР±С‰РµРЅРёСЏ РІРёСЂС‚СѓР°Р»СЊРЅС‹С… РєР»Р°РІРёС€ РІ СЃРёРјРІРѕР»СЊРЅС‹Рµ СЃРѕРѕР±С‰РµРЅРёСЏ.
+		DispatchMessage(&msg);	// РѕС‚РїСЂР°РІР»СЏРµС‚ СЃРѕРѕР±С‰РµРЅРёРµ РІ РїСЂРѕС†РµРґСѓСЂСѓ РѕРєРЅР°.
 	}
 
 	return msg.wParam;
@@ -102,7 +102,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		(
 			NULL,		                                            //exStyle
 			"Button",	                                            //Class
-			"Кнопка",	                                            //Title
+			"РљРЅРѕРїРєР°",	                                            //Title
 			WS_CHILD | WS_VISIBLE,	                                //Style
 			10, 10,		                                            //Position
 			150, 80,	                                            //Size
