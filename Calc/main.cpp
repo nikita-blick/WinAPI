@@ -470,8 +470,16 @@ VOID SetSkin(HWND hwnd, CONST CHAR skin[])
 		);
 		SendMessage(hButton, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)bmpButton);
 	} 
-	INT operationButton[] = { IDC_BUTTON_POINT,IDC_BUTTON_PLUS,IDC_BUTTON_MINUS,IDC_BUTTON_ASTER,IDC_BUTTON_SLASH,IDC_BUTTON_BSP,IDC_BUTTON_CLR,IDC_BUTTON_EQUAL };
-	CONST CHAR* operationFileNames[] = { "button_point","button_plus","button_minus","button_aster","button_slash","button_bsp","button_clr","button_equal" };
+	INT operationButton[] = 
+	{
+		IDC_BUTTON_POINT,IDC_BUTTON_PLUS,IDC_BUTTON_MINUS,
+		IDC_BUTTON_ASTER,IDC_BUTTON_SLASH,IDC_BUTTON_BSP,
+		IDC_BUTTON_CLR,IDC_BUTTON_EQUAL 
+	};
+	CONST CHAR* operationFileNames[] =
+	{
+		"button_point","button_plus","button_minus","button_aster","button_slash","button_bsp","button_clr","button_equal" 
+	};
 
 	for (int i = 0; i <= 7; i++)
 	{
