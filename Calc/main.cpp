@@ -3,22 +3,11 @@
 #include<iostream>
 #include"resource.h"
 #include"dimensions.h"
-
-
-CONST CHAR g_sz_WINDOW_CLASS[] = "Calc PV_521";
-
-CONST INT g_i_WINDOW_COLOR = 0;
-CONST INT g_i_DISPLAY_COLOR = 1;
-CONST INT g_i_FONT_COLOR = 2;
-CONST COLORREF g_clr_COLORS[][3] =
-{
-	{RGB(0,0,150), RGB(0,0,100), RGB(255,0,0)},
-	{ RGB(150,150,150), RGB(50,50,50), RGB(0,255,0)},
-};
-CONST CHAR* g_sz_SKIN[] = { "square_blue", "metal_mixtral" };
+#include"ColorsAndSkins.h"
 
 LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam);
 VOID SetSkin(HWND hwnd, CONST CHAR skin[]);
+
 
 INT WINAPI WinMain(HINSTANCE hInstance, HINSTANCE hPrevInst, LPSTR lpCmdLine, INT nCmdShow)
 {
@@ -245,7 +234,8 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 		static DOUBLE a = DBL_MIN, b = DBL_MIN;                                          // операнды
 		static INT operation = 0;                                                        
 		static BOOL input = FALSE;                                                       // срабатывает при нажатии цифр.
-		static BOOL input_operation = FALSE;                                             //
+		static BOOL input_operation = FALSE;                                             // cрабатывает при нажатии на знак операции
+
 
 
 		SetFocus(hwnd);
@@ -262,6 +252,7 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 				sz_buffer[0] = 0;
 				input_operation = FALSE;
 			}
+			CHAR sz_digit[2] = {};
 			sz_digit[0] = LOWORD(wParam) - IDC_BUTTON_0 + '0';
 			if (strcmp(sz_buffer, "0") == 0)strcpy(sz_buffer, sz_digit);
 			else strcat(sz_buffer, sz_digit);
@@ -461,20 +452,43 @@ LRESULT CALLBACK WndProc(HWND hwnd, UINT uMsg, WPARAM wParam, LPARAM lParam)
 }
 VOID SetSkin(HWND hwnd, CONST CHAR skin[])
 {
+	
 	CHAR sz_filename[FILENAME_MAX] = {};
 	for (int i = 0; i < 10; i++)
 	{
-		sprintf(sz_filename, "ButtonsBMP\\%s\\button_%i.bmp", skin, i);
-		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_0 + i);
+		
+		sprintf(sz_filename, "ButtonsBMP\\%s\\button_%i.bmp", skin, i); 
+		HWND hButton = GetDlgItem(hwnd, IDC_BUTTON_0 + i); 
+		HBITMAP bmpButton = (HBITMAP)LoadImage 
+		( 
+			GetModuleHandle(NULL), 
+			sz_filename, 
+			IMAGE_BITMAP, 
+			i == 0 ? g_i_DOUBLE_BUTTON_SIZE : g_i_BUTTON_SIZE, 
+			g_i_BUTTON_SIZE, 
+			LR_LOADFROMFILE 
+		);
+		SendMessage(hButton, BM_SETIMAGE, IMAGE_BITMAP, (LPARAM)bmpButton);
+	} 
+	INT operationButton[] = { IDC_BUTTON_POINT,IDC_BUTTON_PLUS,IDC_BUTTON_MINUS,IDC_BUTTON_ASTER,IDC_BUTTON_SLASH,IDC_BUTTON_BSP,IDC_BUTTON_CLR,IDC_BUTTON_EQUAL };
+	CONST CHAR* operationFileNames[] = { "button_point","button_plus","button_minus","button_aster","button_slash","button_bsp","button_clr","button_equal" };
+
+	for (int i = 0; i <= 7; i++)
+	{
+		CHAR sz_filename[FILENAME_MAX] = {};
+		sprintf(sz_filename, "ButtonsBMP\\%s\\%s.bmp", skin, operationFileNames[i]);
+
+		HWND hButton = GetDlgItem(hwnd, operationButton[i]);
 		HBITMAP bmpButton = (HBITMAP)LoadImage
 		(
 			GetModuleHandle(NULL),
 			sz_filename,
 			IMAGE_BITMAP,
-			i==0?g_i_DOUBLE_BUTTON_SIZE:g_i_BUTTON_SIZE,
 			g_i_BUTTON_SIZE,
+			i == 7 ? g_i_DOUBLE_BUTTON_SIZE : g_i_BUTTON_SIZE,
 			LR_LOADFROMFILE
 		);
 		SendMessage(hButton, BM_SETIMAGE, 0, (LPARAM)bmpButton);
 	}
+
 }
